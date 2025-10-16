@@ -1,0 +1,121 @@
+.reportes-container {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  padding: 18px;
+  font-family: "Poppins", sans-serif;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.reportes-container::-webkit-scrollbar {
+  width: 6px;
+}
+.reportes-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+.reportes-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.reportes-header h3 {
+  font-size: 1.2rem;
+  color: #1e2a38;
+  font-weight: 600;
+  margin: 0;
+}
+
+.subtitulo {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.reportes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reporte-card {
+  background: #f9fafc;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+}
+
+.reporte-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.reporte-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reporte-info h4 {
+  font-size: 1rem;
+  color: #1e2a38;
+  font-weight: 500;
+  margin: 0;
+}
+
+.reporte-descripcion {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 6px;
+}
+
+/* ----- PRIORIDAD COLORES ----- */
+.prioridad {
+  padding: 4px 10px;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.prioridad.Alta {
+  background: #ef5350;
+  box-shadow: 0 2px 6px rgba(239, 83, 80, 0.3);
+}
+
+.prioridad.Media {
+  background: #ffb74d;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(255, 183, 77, 0.3);
+}
+
+.prioridad.Baja {
+  background: #81c784;
+  box-shadow: 0 2px 6px rgba(129, 199, 132, 0.3);
+}
+
+/* ----- RESPONSIVE ----- */
+@media (max-width: 768px) {
+  .reportes-container {
+    padding: 12px;
+  }
+
+  .reportes-header h3 {
+    font-size: 1rem;
+  }
+
+  .reporte-card {
+    padding: 10px;
+  }
+
+  .prioridad {
+    font-size: 0.75rem;
+  }
+}
