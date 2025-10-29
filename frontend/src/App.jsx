@@ -1,5 +1,11 @@
 import AppRouter from "./routes/AppRouter";
-import Navbar from "./components/Navbar";
+import { AuthProvider } from "./context/AuthContext";
+import "leaflet/dist/leaflet.css";
+
 export default function App() {
-  return <AppRouter />;
+  return (
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
+  );
 }

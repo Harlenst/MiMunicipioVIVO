@@ -11,6 +11,8 @@ import mapaRoutes from "./mapa.js";
 import comentariosRoutes from "./comentarios.js";
 import historialRoutes from "./historial.js";
 import mapaPoligonoRoutes from "./mapaPoligono.js";
+import comunidadesRoutes from "./comunidades.js";
+import gruposRoutes from "./grupos.js";
 
 const router = express.Router();
 
@@ -30,6 +32,8 @@ router.use("/mapa", mapaRoutes);
 router.use("/comentarios", comentariosRoutes);
 router.use("/historial", historialRoutes);
 router.use("/mapa-poligono", mapaPoligonoRoutes);
+router.use("/comunidades", comunidadesRoutes);
+router.use("/grupos", gruposRoutes);
 
 export default router;
 // Nota: Considerar restricciones de seguridad y privacidad en producción

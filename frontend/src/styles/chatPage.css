@@ -1,0 +1,59 @@
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f9f9f9;
+  padding: 20px;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.chat-header button {
+  background: white;
+  border: none;
+  color: #007bff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reporte-info {
+  background: white;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  margin-top: 15px;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.no-access {
+  text-align: center;
+  padding-top: 50px;
+}
+
+.no-access button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+  cursor: pointer;
+}

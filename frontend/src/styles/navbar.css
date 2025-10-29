@@ -1,203 +1,46 @@
-/* ======== NAVBAR ======== */
 .navbar {
   position: fixed;
-  left: 240px;
+  top: 0;
+  left: 0;
   right: 0;
-  height: 68px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  height: 64px; /* Reducido para un diseño más compacto */
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
-  z-index: 20;
+  padding: 0 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  font-family: "Inter", sans-serif;
 }
 
-/* ---- SECCIONES ---- */
-.navbar-left {
-  flex: 1;
-}
-
-.navbar-center {
-  flex: 2;
-  display: flex;
-  justify-content: center;
-}
-
-.navbar-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 20px;
-}
-
-/* ---- TÍTULO ---- */
-.navbar-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1565c0;
-}
-
-/* ---- BUSCADOR ---- */
 .search-bar {
-  display: flex;
-  align-items: center;
-  background-color: #f3f6fb;
-  border-radius: 30px;
-  padding: 8px 16px;
-  width: 340px;
-  transition: all 0.3s ease;
-  border: 1px solid transparent;
+  background-color: #f1f5f9;
+  border-radius: 9999px; /* Bordes más redondeados */
+  padding: 0.5rem 1rem;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
 }
 
-.search-bar:hover,
 .search-bar:focus-within {
-  background-color: #e9f0fc;
-  border: 1px solid #1976d2;
-  box-shadow: 0 0 6px rgba(25, 118, 210, 0.2);
+  border-color: #3a83f1;
+  box-shadow: 0 0 0 3px rgba(58, 131, 241, 0.1);
 }
 
 .search-bar input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 0.9rem;
-  color: #333;
-  width: 100%;
-  margin-left: 10px;
+  font-size: 0.875rem;
+  color: #1e293b;
 }
 
-.icon-search {
-  color: #1976d2;
-  font-size: 1rem;
-}
-
-/* ---- NOTIFICACIONES ---- */
-.icon-wrapper {
-  position: relative;
-}
-
-.icon-bell {
-  font-size: 1.3rem;
-  color: #1976d2;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.icon-bell:hover {
-  transform: scale(1.15);
-  color: #0d47a1;
-}
-
-.notif-badge {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  background: #e53935;
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 700;
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ---- USUARIO ---- */
-.user-dropdown {
-  position: relative;
-  cursor: pointer;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #eef2fa;
-  padding: 8px 14px;
-  border-radius: 24px;
-  transition: all 0.3s ease;
-}
-
-.user-info:hover {
-  background-color: #dce8fd;
-  transform: translateY(-1px);
-}
-
-.user-info img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2px solid #e0e0e0;
-  object-fit: cover;
-}
-
-.user-info span {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1e2a38;
-}
-
-/* ---- MENÚ DESPLEGABLE ---- */
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 58px;
-  width: 220px;
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  padding: 8px 0;
-  animation: fadeIn 0.2s ease-out;
-  z-index: 50;
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 16px;
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: 0.9rem;
-  color: #374151;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-}
-
-.dropdown-item:hover {
-  background-color: #f3f4f6;
-  transform: translateX(3px);
-}
-
-.dropdown-item.logout {
-  color: #e53935;
-}
-
-.dropdown-item.logout:hover {
-  background-color: #fdecea;
-}
-
-.dropdown-menu hr {
-  border: none;
-  border-top: 1px solid #e5e7eb;
-  margin: 6px 0;
-}
-
-/* ---- ANIMACIÓN ---- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
+@media (max-width: 768px) {
+  .search-bar {
+    display: none; /* Oculta búsqueda en móviles, puede activarse con un botón */
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .navbar-left button {
+    padding: 0.5rem;
+    background-color: #f1f5f9;
+    border-radius: 9999px;
   }
 }

@@ -1,0 +1,27 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "steven21",
+    "database": "municipio",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432,
+    "logging": false
+  },
+  "test": {
+    "username": "postgres",
+    "password": "steven21",
+    "database": "municipio_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432
+  },
+  "production": {
+    "username": "postgres",
+    "password": "steven21",
+    "database": "municipio_prod",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "port": 5432
+  }
+}

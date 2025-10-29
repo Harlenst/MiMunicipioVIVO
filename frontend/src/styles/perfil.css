@@ -1,0 +1,283 @@
+/* ============================================================
+   👤 PERFIL DE USUARIO INSTITUCIONAL
+============================================================ */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 240px;
+  padding: 1.5rem;
+  background: #f3f5f9;
+  min-height: 100vh;
+}
+
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.perfil-container {
+  background: #fff;
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* CABECERA */
+.perfil-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 2px solid #e8ecf3;
+  padding-bottom: 1rem;
+}
+
+.perfil-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #004aad, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.perfil-header h2 {
+  color: #004aad;
+  margin: 0;
+  font-weight: 700;
+}
+
+.perfil-header p {
+  color: #666;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* SECCIONES */
+.perfil-section h3 {
+  color: #004aad;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid #dce2eb;
+  padding-bottom: 4px;
+  font-weight: 600;
+}
+
+.perfil-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* CAMPOS */
+.perfil-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-field label {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.perfil-field input {
+  border: 1px solid #cfd8e3;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: #222;
+  background: #fdfdfd;
+}
+
+.perfil-field input:disabled {
+  background: #f4f6f9;
+  color: #777;
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cfd8e3;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.input-icon svg {
+  color: #004aad;
+  margin-left: 10px;
+}
+
+.input-icon input {
+  border: none;
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+}
+
+/* VALIDACIÓN */
+.validacion-texto {
+  color: #e53935;
+  font-size: 0.8rem;
+  margin-top: 3px;
+}
+
+/* BOTONES */
+.perfil-buttons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+.btn-editar,
+.btn-guardar,
+.btn-cancelar {
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.btn-editar {
+  background: #004aad;
+  color: white;
+}
+
+.btn-editar:hover {
+  background: #00388a;
+}
+
+.btn-guardar {
+  background: #4caf50;
+  color: white;
+}
+
+.btn-guardar:hover {
+  background: #3d8b40;
+}
+
+.btn-cancelar {
+  background: #e0e6f5;
+  color: #004aad;
+}
+
+.btn-cancelar:hover {
+  background: #d2dbf0;
+}
+
+/* MENSAJES */
+.perfil-mensaje {
+  text-align: right;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.perfil-mensaje.success {
+  color: #2e7d32;
+}
+
+.perfil-mensaje.error {
+  color: #d32f2f;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .perfil-container {
+    padding: 1.2rem;
+  }
+
+  .perfil-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.4rem;
+  }
+}
+/* ============================================================
+   ⚠️ MODAL DE CONFIRMACIÓN
+============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.8rem;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-box h4 {
+  color: #004aad;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-box p {
+  color: #444;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-confirmar {
+  background: #004aad;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-confirmar:hover {
+  background: #00388a;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Animación de entrada del modal */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

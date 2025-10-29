@@ -1,39 +1,45 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import Joi from "joi";
 import nodemailer from "nodemailer";
+import Joi from "joi";
 import { Usuario } from "../models/index.js";
 import { success, failure } from "../utils/response.js";
 
 dotenv.config();
 
-/* ========================================
-   🔹 SCHEMAS DE VALIDACIÓN (JOI)
-======================================== */
+/* =======================
+   🔹 VALIDACIÓN (JOI)
+======================= */
 const schemaRegistro = Joi.object({
-  cedula: Joi.string().min(6).max(20).required(),
-  nombre: Joi.string().min(3).max(100).required(),
-  email: Joi.string().email().required(),
-  password: Joi.string()
+  tipo_sociedad: Joi.string().required(),
+  tipo_entidad: Joi.string().required(),
+  tipo_identificacion: Joi.string().required(),
+  numero_identificacion: Joi.string().min(4).max(20).required(),
+  nombre: Joi.string().min(3).max(120).required(),
+  genero: Joi.string().required(),
+  correo: Joi.string().email().required(),
+  direccion: Joi.string().min(5).max(200).required(),
+  barrio: Joi.string().allow(null, ""),
+  telefono1: Joi.string().min(6).max(20).required(),
+  telefono2: Joi.string().allow(null, ""),
+  pais: Joi.string().required(),
+  departamento: Joi.string().required(),
+  ciudad: Joi.string().required(),
+  contrasena: Joi.string()
     .min(8)
     .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])"))
     .required(),
-  municipio: Joi.string().required(),
-  tiempo: Joi.string().required(),
-  terminos: Joi.boolean().valid(true).required(),
 });
 
 const schemaLogin = Joi.object({
-  cedula: Joi.string().optional(),
-  municipio: Joi.string().optional(),
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
 });
 
-/* ========================================
-   🔹 CONFIGURACIÓN DEL TRANSPORTER
-======================================== */
+/* =======================
+   🔹 TRANSPORTER EMAIL
+======================= */
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -42,44 +48,77 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-/* ========================================
+/* =======================
    🔹 REGISTRO DE USUARIO
-======================================== */
+======================= */
 export const registrar = async (req, res) => {
   try {
     const { error } = schemaRegistro.validate(req.body);
     if (error) return failure(res, error.details[0].message, 400);
 
-    const { cedula, nombre, email, password, municipio, tiempo } = req.body;
-
-    const existe = await Usuario.findOne({ where: { correo: email } });
-    if (existe) return failure(res, "El correo ya está registrado", 400);
-
-    const hash = await bcrypt.hash(password, 10);
-
-    const usuario = await Usuario.create({
-      cedula,
+    const {
+      tipo_sociedad,
+      tipo_entidad,
+      tipo_identificacion,
+      numero_identificacion,
       nombre,
-      correo: email,
+      genero,
+      correo,
+      direccion,
+      barrio,
+      telefono1,
+      telefono2,
+      pais,
+      departamento,
+      ciudad,
+      contrasena,
+    } = req.body;
+
+    const existeCorreo = await Usuario.findOne({ where: { correo } });
+    if (existeCorreo)
+      return failure(res, "El correo ya está registrado", 400);
+
+    const existeCedula = await Usuario.findOne({
+      where: { numero_identificacion },
+    });
+    if (existeCedula)
+      return failure(res, "El número de identificación ya existe", 400);
+
+    const hash = await bcrypt.hash(contrasena, 10);
+
+    const nuevoUsuario = await Usuario.create({
+      tipo_sociedad,
+      tipo_entidad,
+      tipo_identificacion,
+      numero_identificacion,
+      nombre,
+      genero,
+      correo,
+      direccion,
+      barrio,
+      telefono1,
+      telefono2,
+      pais,
+      departamento,
+      ciudad,
       contrasena: hash,
-      municipio,
-      tiempo_residencia: tiempo,
       rol: "ciudadano",
     });
 
-    return success(res, "Registro exitoso. Ya puedes iniciar sesión.", {
-      id_usuario: usuario.id_usuario,
-      correo: usuario.correo,
-      municipio: usuario.municipio,
+    return success(res, "✅ Registro exitoso. Ya puedes iniciar sesión.", {
+      id_usuario: nuevoUsuario.id_usuario,
+      correo: nuevoUsuario.correo,
+      nombre: nuevoUsuario.nombre,
     });
   } catch (error) {
+    console.error("❌ Error al registrar:", error.message);
     return failure(res, "Error al registrar usuario", 500, error.message);
   }
 };
 
-/* ========================================
-   🔹 LOGIN DE USUARIO
-======================================== */
+/* =======================
+   🔹 LOGIN
+======================= */
 export const login = async (req, res) => {
   try {
     const { error } = schemaLogin.validate(req.body);
@@ -105,18 +144,18 @@ export const login = async (req, res) => {
         id_usuario: usuario.id_usuario,
         nombre: usuario.nombre,
         correo: usuario.correo,
-        municipio: usuario.municipio,
         rol: usuario.rol,
       },
     });
   } catch (error) {
+    console.error("❌ Error en login:", error.message);
     return failure(res, "Error al iniciar sesión", 500, error.message);
   }
 };
 
-/* ========================================
+/* =======================
    🔹 RECUPERAR CONTRASEÑA
-======================================== */
+======================= */
 export const recuperar = async (req, res) => {
   try {
     const { email } = req.body;
@@ -139,20 +178,21 @@ export const recuperar = async (req, res) => {
         <h3>Restablecer contraseña</h3>
         <p>Hola ${usuario.nombre},</p>
         <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
-        <a href="${resetLink}" style="color:#1976d2;">Restablecer contraseña</a>
+        <a href="${resetLink}" style="color:#2563eb;">Restablecer contraseña</a>
         <p>Este enlace expirará en 15 minutos.</p>
       `,
     });
 
     return success(res, "Se ha enviado un enlace de recuperación a tu correo.", {});
   } catch (error) {
+    console.error("❌ Error al enviar correo:", error.message);
     return failure(res, "Error al enviar correo de recuperación", 500, error.message);
   }
 };
 
-/* ========================================
+/* =======================
    🔹 RESTABLECER CONTRASEÑA
-======================================== */
+======================= */
 export const restablecer = async (req, res) => {
   try {
     const { token } = req.params;
@@ -168,6 +208,7 @@ export const restablecer = async (req, res) => {
 
     return success(res, "Contraseña restablecida correctamente", {});
   } catch (error) {
+    console.error("❌ Error al restablecer contraseña:", error.message);
     return failure(res, "Error al restablecer contraseña", 500, error.message);
   }
 };

@@ -1,6 +1,6 @@
-export const success = (res, message, data = null, code = 200) => {
+export const success = (res, message, data = {}, code = 200) => {
   return res.status(code).json({
-    success: true,
+    ok: true,
     message,
     data,
   });
@@ -8,7 +8,7 @@ export const success = (res, message, data = null, code = 200) => {
 
 export const failure = (res, message, code = 400, error = null) => {
   return res.status(code).json({
-    success: false,
+    ok: false,
     message,
     error,
   });

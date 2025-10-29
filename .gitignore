@@ -1,0 +1,13 @@
+# Ignorar dependencias
+node_modules/
+
+# Archivos de entorno
+.env
+
+# Archivos del sistema
+.DS_Store
+thumbs.db
+
+# Archivos de compilación
+dist/
+build/

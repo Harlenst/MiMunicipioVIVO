@@ -9,62 +9,87 @@ export default (db) =>
         autoIncrement: true,
         primaryKey: true,
       },
-      cedula: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
+      tipo_sociedad: DataTypes.STRING(50),
+      tipo_entidad: DataTypes.STRING(50),
+      tipo_identificacion: DataTypes.STRING(30),
+      numero_identificacion: {
+        type: DataTypes.STRING(30),
         unique: true,
-        validate: {
-          isNumeric: true, // Asegura que sea numérica
-          len: [8, 20], // Longitud mínima/máxima típica para cédulas
-        },
       },
       nombre: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(120),
         allowNull: false,
-        validate: {
-          len: [3, 100], // Nombre no vacío
-        },
       },
+      genero: DataTypes.STRING(30),
       correo: {
         type: DataTypes.STRING(150),
         unique: true,
         allowNull: false,
-        validate: {
-          isEmail: true, // Valida formato de email
-        },
+        validate: { isEmail: true },
       },
-      contrasena: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-        validate: {
-          len: [8, 255], // Contraseña mínima de 8 chars (antes de hash)
-        },
-      },
-      municipio: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-      },
-      tiempo_residencia: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-      },
+      direccion: DataTypes.STRING(200),
+      barrio: DataTypes.STRING(100),
+      telefono1: DataTypes.STRING(20),
+      telefono2: DataTypes.STRING(20),
+      pais: DataTypes.STRING(100),
+      departamento: DataTypes.STRING(100),
+      ciudad: DataTypes.STRING(100),
+      contrasena: DataTypes.STRING(255),
       rol: {
         type: DataTypes.STRING(20),
-        allowNull: false,
         defaultValue: "ciudadano",
-      },
-      fecha_registro: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
       },
       estado: {
         type: DataTypes.STRING(20),
         defaultValue: "activo",
       },
-      verified: { // Nuevo campo para verificación
+      fecha_registro: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      verified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+
+      // ======================
+      // 🎨 PERSONALIZACIÓN
+      // ======================
+      tema: {
+        type: DataTypes.STRING(20),
+        defaultValue: "claro",
+      },
+      color: {
+        type: DataTypes.STRING(20),
+        defaultValue: "#2563eb",
+      },
+      fuente: {
+        type: DataTypes.STRING(40),
+        defaultValue: "Inter",
+      },
+
+      // ======================
+      // 🔔 NOTIFICACIONES
+      // ======================
+      notif_email: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
+      notif_push: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      notif_whatsapp: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      notif_resumen: {
+        type: DataTypes.STRING(20),
+        defaultValue: "semanal",
+      },
     },
-    { tableName: "usuarios", timestamps: false }
+    {
+      tableName: "usuarios",
+      timestamps: false,
+    }
   );

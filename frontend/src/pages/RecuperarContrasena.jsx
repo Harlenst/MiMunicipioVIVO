@@ -1,106 +1,203 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "../styles/registro.css";
 
-export default function RecuperarContrasena() {
-  const [email, setEmail] = useState("");
-  const [codigo, setCodigo] = useState("");
+export default function Recuperar() {
+  const [correo, setCorreo] = useState("");
   const [nuevaPass, setNuevaPass] = useState("");
-  const [paso, setPaso] = useState(1);
+  const [confirmarPass, setConfirmarPass] = useState("");
+  const [token, setToken] = useState("");
+  const [fase, setFase] = useState(1); // 1 = solicitud, 2 = restablecer
+  const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  const enviarCodigo = async () => {
-    if (!email) {
-      setError("Ingresa un email válido");
-      return;
-    }
+  /* =============================
+     🔹 Enviar correo de recuperación
+  ============================= */
+  const solicitarRecuperacion = async (e) => {
+    e.preventDefault();
+    setError("");
+    setMensaje("");
     setLoading(true);
-    setError(null);
+
     try {
-      await axios.post("http://localhost:5000/api/auth/recuperar", { email });
-      alert("Código enviado al correo");
-      setPaso(2);
+      const res = await axios.post("http://localhost:5000/api/auth/recuperar", {
+        email: correo,
+      });
+      setMensaje(res.data.message || "📩 Se ha enviado un enlace a tu correo.");
+      setFase(2);
     } catch (err) {
-      setError("Error al enviar el código");
+      console.error("❌ Error al enviar correo:", err);
+      setError(err.response?.data?.message || "Error al enviar correo.");
     } finally {
       setLoading(false);
     }
   };
 
-  const cambiarPass = async () => {
-    if (nuevaPass.length < 8 || !/[A-Z]/.test(nuevaPass) || !/[0-9]/.test(nuevaPass)) {
-      setError("Contraseña debe tener min 8 chars, una mayúscula y un número");
+  /* =============================
+     🔹 Restablecer contraseña
+  ============================= */
+  const restablecerContrasena = async (e) => {
+    e.preventDefault();
+    setError("");
+    setMensaje("");
+    if (nuevaPass !== confirmarPass) {
+      setError("Las contraseñas no coinciden.");
       return;
     }
+
     setLoading(true);
-    setError(null);
     try {
-      await axios.post("http://localhost:5000/api/auth/restablecer", {
-        email,
-        codigo,
-        nuevaPass,
-      });
-      alert("Contraseña actualizada correctamente");
-      window.location.href = "/login";
+      const res = await axios.post(
+        `http://localhost:5000/api/auth/restablecer/${token}`,
+        { nuevaPass }
+      );
+
+      setMensaje(res.data.message || "✅ Contraseña restablecida correctamente.");
+      setShowModal(true);
+
+      setTimeout(() => {
+        setShowModal(false);
+        navigate("/login");
+      }, 2500);
     } catch (err) {
-      setError("Error al cambiar la contraseña");
+      console.error("❌ Error al restablecer:", err);
+      setError(err.response?.data?.message || "Error al restablecer contraseña.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-50">
-      <div className="bg-white shadow-lg p-8 rounded-2xl w-[400px]">
-        <h2 className="text-2xl font-bold mb-4 text-center">Recuperar Contraseña</h2>
+    <div className="registro-layout">
+      {/* ==== SIDEBAR ==== */}
+      <aside className="registro-sidebar">
+        <div className="sidebar-header">
+          <img src="/logo_municipio.png" alt="Logo" />
+          <h3>Municipio Vivo</h3>
+        </div>
+        <nav>
+          <button className="nav-btn" onClick={() => navigate("/login")}>
+            🔐 Iniciar sesión
+          </button>
+          <button className="nav-btn" onClick={() => navigate("/registro")}>
+            🧾 Registrarme
+          </button>
+          <button className="nav-btn active">🔁 Recuperar acceso</button>
+        </nav>
+      </aside>
 
-        {error && <p className="text-red-500 mb-3">{error}</p>}
+      {/* ==== CONTENIDO ==== */}
+      <main className="registro-content">
+        <header className="registro-navbar">
+          <h2>Recuperar contraseña</h2>
+          <span>Restaura el acceso a tu cuenta ciudadana</span>
+        </header>
 
-        {paso === 1 && (
-          <>
-            <input
-              type="email"
-              placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border p-2 rounded mb-3"
-            />
-            <button
-              onClick={enviarCodigo}
-              disabled={loading}
-              className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-            >
-              {loading ? "Enviando..." : "Enviar código"}
-            </button>
-          </>
-        )}
+        <div className="registro-form-wrapper">
+          <div className="registro-card">
+            {fase === 1 && (
+              <form onSubmit={solicitarRecuperacion}>
+                <div className="form-grid" style={{ gridTemplateColumns: "1fr" }}>
+                  <div>
+                    <label>Correo electrónico registrado</label>
+                    <input
+                      type="email"
+                      value={correo}
+                      onChange={(e) => setCorreo(e.target.value)}
+                      placeholder="nombre@dominio.com"
+                      required
+                    />
+                  </div>
+                </div>
 
-        {paso === 2 && (
-          <>
-            <input
-              type="text"
-              placeholder="Código recibido"
-              value={codigo}
-              onChange={(e) => setCodigo(e.target.value)}
-              className="w-full border p-2 rounded mb-3"
-            />
-            <input
-              type="password"
-              placeholder="Nueva contraseña"
-              value={nuevaPass}
-              onChange={(e) => setNuevaPass(e.target.value)}
-              className="w-full border p-2 rounded mb-3"
-            />
-            <button
-              onClick={cambiarPass}
-              disabled={loading}
-              className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
-            >
-              {loading ? "Cambiando..." : "Cambiar contraseña"}
-            </button>
-          </>
-        )}
-      </div>
+                {error && <p className="mensaje error fade-in">{error}</p>}
+                {mensaje && <p className="mensaje success fade-in">{mensaje}</p>}
+
+                <div className="botones-form">
+                  <button
+                    type="button"
+                    className="btn-volver"
+                    onClick={() => navigate("/login")}
+                  >
+                    Volver
+                  </button>
+                  <button type="submit" className="btn-registrar" disabled={loading}>
+                    {loading ? "Enviando..." : "Enviar enlace"}
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {fase === 2 && (
+              <form onSubmit={restablecerContrasena}>
+                <div className="form-grid">
+                  <div>
+                    <label>Token recibido en el correo</label>
+                    <input
+                      type="text"
+                      value={token}
+                      onChange={(e) => setToken(e.target.value)}
+                      placeholder="Pega aquí el código del correo"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Nueva contraseña</label>
+                    <input
+                      type="password"
+                      value={nuevaPass}
+                      onChange={(e) => setNuevaPass(e.target.value)}
+                      placeholder="Nueva contraseña"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label>Confirmar nueva contraseña</label>
+                    <input
+                      type="password"
+                      value={confirmarPass}
+                      onChange={(e) => setConfirmarPass(e.target.value)}
+                      placeholder="Confirma la nueva contraseña"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {error && <p className="mensaje error fade-in">{error}</p>}
+                {mensaje && <p className="mensaje success fade-in">{mensaje}</p>}
+
+                <div className="botones-form">
+                  <button
+                    type="button"
+                    className="btn-volver"
+                    onClick={() => setFase(1)}
+                  >
+                    Volver atrás
+                  </button>
+                  <button type="submit" className="btn-registrar" disabled={loading}>
+                    {loading ? "Guardando..." : "Restablecer contraseña"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      </main>
+
+      {/* ==== MODAL CONFIRMACIÓN ==== */}
+      {showModal && (
+        <div className="registro-modal">
+          <div className="modal-content">
+            <h3>✅ Contraseña actualizada</h3>
+            <p>Tu acceso ha sido restablecido correctamente.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

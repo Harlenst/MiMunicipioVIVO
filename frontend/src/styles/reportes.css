@@ -1,10 +1,29 @@
 /* ===== CONTENEDOR PRINCIPAL ===== */
 .reportes-container {
-  margin-left: 250px; /* espacio para la sidebar */
-  padding: 100px 30px 30px; /* deja espacio para el navbar fijo */
+  /* Eliminar padding superior y margen izquierdo, ya manejados por PanelLayout */
+  padding: 0 0 30px; /* Solo padding inferior para consistencia */
   background-color: #f8f9fb;
   min-height: 100vh;
   box-sizing: border-box;
+  transition: margin-left 0.3s ease; /* Mantener transición si se usa en otro contexto */
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Asegurar que ocupe todo el ancho disponible */
+}
+
+/* Contenedor de contenido */
+.reportes-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Media query para pantallas pequeñas (mobile) */
+@media (max-width: 768px) {
+  .reportes-container {
+    padding: 0 15px 15px; /* Ajustar padding en mobile */
+  }
 }
 
 /* ===== HEADER ===== */
@@ -57,6 +76,11 @@
   border-radius: 10px;
   padding: 8px 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.filtro:hover {
+  transform: translateY(-2px);
 }
 
 .filtro label {
@@ -71,21 +95,37 @@
   background: transparent;
   font-size: 0.9rem;
   color: #1e2a38;
+  cursor: pointer;
 }
 
 /* ===== LISTA ===== */
 .lista-reportes {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
+.reportes-scroll {
+  max-height: calc(100vh - 64px - 120px); /* Restar altura de navbar (64px) y espacio estimado para header/filtros (120px) */
+  overflow-y: auto;
+  flex: 1;
+  background-color: #f9fafb; /* Fondo similar a bg-gray-50 */
+}
+
+/* ===== TARJETA DE REPORTE ===== */
 .reporte-card {
   background: white;
   border-radius: 10px;
   padding: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   border: 1px solid #e0e6ed;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.reporte-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .reporte-header {
@@ -98,6 +138,10 @@
 .reporte-header h3 {
   font-size: 1rem;
   color: #1e2a38;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
 }
 
 .estado {
@@ -113,7 +157,7 @@
   color: #856404;
 }
 
-.estado.en {
+.estado.en-gestion {
   background: #e3f2fd;
   color: #1565c0;
 }
@@ -127,6 +171,13 @@
   font-size: 0.9rem;
   color: #455a64;
   margin-bottom: 8px;
+  line-height: 1.4;
+  max-height: 3.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .reporte-footer {
@@ -142,4 +193,99 @@
   color: #607d8b;
   margin-top: 50px;
   font-size: 0.95rem;
+}
+/* reportes.css */
+.reportes-container {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+}
+
+.reportes-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .reportes-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Header */
+.reportes-header h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+/* Filtros */
+.filtros-reportes select,
+.filtros-reportes input {
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.filtros-reportes select:focus,
+.filtros-reportes input:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Tarjetas */
+.reporte-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.reporte-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.reporte-card:hover::before {
+  opacity: 1;
+}
+
+.reporte-card:hover {
+  transform: translateY(-4px);
+  border-color: #dbeafe;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Iconos en select */
+.filtro,
+.relative {
+  position: relative;
+}
+
+.filtro .icon,
+.relative .icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Responsive grid */
+@media (max-width: 767px) {
+  .grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
 }

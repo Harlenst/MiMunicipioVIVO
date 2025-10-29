@@ -1,0 +1,523 @@
+/* ============================================================
+   🌎 ESTILOS INSTITUCIONALES - MI MUNICIPIO VIVO
+   Unifica Navbar, Sidebar, Mapa Ciudadano y Paneles
+============================================================ */
+
+/* ==== FUENTE GLOBAL ==== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  background-color: #f3f5f9;
+  color: #1e2a38;
+  overflow: hidden;
+}
+
+/* ============================================================
+   🧭 SIDEBAR
+============================================================ */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background: linear-gradient(180deg, #004aad, #1565c0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  padding-top: 1.2rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.sidebar-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  margin-bottom: 6px;
+}
+
+.sidebar-logo h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sidebar-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #e3e8f2;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-left: 4px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #fff;
+  transform: translateX(3px);
+}
+
+.sidebar-item.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #fff;
+  color: #fff;
+}
+
+/* ============================================================
+   🔹 NAVBAR
+============================================================ */
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 240px;
+  right: 0;
+  height: 70px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border-bottom: 2px solid #e8ecf3;
+  z-index: 90;
+}
+
+.navbar-left h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #004aad;
+}
+
+.navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #f1f3f6;
+  border-radius: 20px;
+  padding: 8px 14px;
+  width: 60%;
+  max-width: 600px;
+  transition: all 0.3s ease;
+}
+
+.search-bar:hover {
+  background: #e6ebf0;
+  transform: scale(1.02);
+}
+
+.search-icon {
+  color: #777;
+  margin-right: 8px;
+  font-size: 0.95rem;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ====== MENU USUARIO ====== */
+.user-menu {
+  position: relative;
+}
+
+.user-btn {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.user-icon {
+  font-size: 1.6rem;
+  color: #004aad;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  animation: fadeDown 0.3s ease;
+  z-index: 200;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  border-left: 3px solid transparent;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background: #e3f2fd;
+  color: #1565c0;
+  border-left: 3px solid #1565c0;
+  transform: translateX(5px);
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   🗺️ MAPA CIUDADANO
+============================================================ */
+.content-body {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.map-section {
+  flex: 2.5;
+  background-color: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.map-section:hover {
+  transform: scale(1.002);
+}
+
+/* ====== ENCABEZADO MAPA ====== */
+.map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  color: white;
+  font-weight: 500;
+}
+
+.map-header.azul {
+  background: linear-gradient(135deg, #1565c0, #004aad);
+}
+.map-header.verde {
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+}
+.map-header.amarillo {
+  background: linear-gradient(135deg, #fbc02d, #f57f17);
+}
+.map-header.rojo {
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+}
+
+/* ====== FILTRO CATEGORÍAS ====== */
+.filtro-categorias {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filtro-categorias label {
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.filtro-categorias select {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+}
+
+/* ====== MAPA ====== */
+.mapa-leaflet {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 0 16px 16px;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-popup-tip {
+  background: #ffffff;
+}
+
+/* ============================================================
+   📊 PANEL DERECHO (REPORTES Y CHAT)
+============================================================ */
+.right-panels {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ==== Reportes ==== */
+.reportes-panel {
+  flex: 1;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.reportes-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-bottom: 1px solid #e0e6f5;
+  padding-bottom: 0.5rem;
+}
+
+.reportes-icono {
+  font-size: 1.6rem;
+}
+
+.reportes-titulo h3 {
+  color: #004aad;
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.reportes-titulo span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.filtro-prioridad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+
+.filtro-prioridad select {
+  border: 1px solid #cfd8e3;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 0.85rem;
+  background: #f5f7fb;
+}
+
+.reportes-lista {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  padding-right: 6px;
+}
+
+.reporte-item {
+  background: #f9fbff;
+  border: 1px solid #e4e8f1;
+  border-radius: 10px;
+  padding: 0.8rem;
+  margin-bottom: 0.6rem;
+  transition: 0.25s;
+}
+
+.reporte-item:hover {
+  background: #eef3ff;
+  transform: scale(1.01);
+}
+
+.reporte-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reporte-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #1e2a38;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+}
+
+.badge.alto {
+  background: #e53935;
+}
+.badge.medio {
+  background: #fbc02d;
+  color: #222;
+}
+.badge.bajo {
+  background: #43a047;
+}
+
+/* ==== Chat ==== */
+.chat-panel {
+  flex: 1;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.chat-panel h2 {
+  font-size: 1.05rem;
+  color: #004aad;
+  margin: 0 0 0.5rem 0;
+}
+
+/* ============================================================
+   🧩 SCROLLS Y RESPONSIVE
+============================================================ */
+.reportes-lista::-webkit-scrollbar {
+  width: 8px;
+}
+.reportes-lista::-webkit-scrollbar-thumb {
+  background: #cfd8e3;
+  border-radius: 10px;
+}
+.reportes-lista::-webkit-scrollbar-thumb:hover {
+  background: #b0b8c5;
+}
+
+@media (max-width: 1024px) {
+  .content-body {
+    flex-direction: column;
+  }
+
+  .map-section {
+    flex: none;
+    height: 60vh;
+  }
+
+  .right-panels {
+    flex-direction: row;
+    gap: 0.8rem;
+  }
+
+  .panel {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    left: 0;
+    padding: 0 1rem;
+  }
+
+  .map-section {
+    height: 55vh;
+  }
+
+  .map-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+
+  .right-panels {
+    flex-direction: column;
+  }
+
+  .reportes-panel,
+  .chat-panel {
+    min-height: 280px;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+
+  .navbar-left h3 {
+    font-size: 1rem;
+  }
+}
